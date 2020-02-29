@@ -1,8 +1,6 @@
 package ro.ubb.geekstack.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import ro.ubb.geekstack.models.Comment;
 import ro.ubb.geekstack.repository.CommentRepository;
