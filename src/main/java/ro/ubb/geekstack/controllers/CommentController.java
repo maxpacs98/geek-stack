@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.ubb.geekstack.dtos.CommentDto;
 import ro.ubb.geekstack.dtos.CommentInputDto;
 import ro.ubb.geekstack.models.Comment;
 import ro.ubb.geekstack.services.CommentService;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,15 +21,24 @@ public class CommentController {
     CommentService commentService;
 
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
-    List<Comment> getComments() {
-        return commentService.getAllComments();
+    List<CommentDto> getComments() {
+        List<CommentDto> dtos = new ArrayList<>();
+        commentService.getAllComments().forEach(c -> dtos.add(CommentDto.
+                builder()
+                .id(c.getId())
+                .author(c.getAuthor())
+                .likes(c.getLikes())
+                .timestamp(c.getTimestamp())
+                .text(c.getText())
+                .build()));
+        return dtos;
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
     Long addComment(@RequestBody CommentInputDto comment) {
         // TODO: See if we can generify
         Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
-        c.setTimestamp(new Date());
+        c.setTimestamp(Date.from(Instant.now()));
         return commentService.addComment(c);
     }
 
@@ -53,7 +64,7 @@ public class CommentController {
         List<Comment> toInsert = new ArrayList<>();
         comments.forEach(comment -> {
             Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
-            c.setTimestamp(new Date());
+            c.setTimestamp(Date.from(Instant.now()));
             toInsert.add(c);
         });
         return commentService.bulkInsert(toInsert);

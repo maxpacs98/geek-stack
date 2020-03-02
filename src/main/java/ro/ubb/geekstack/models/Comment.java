@@ -18,6 +18,6 @@ public class Comment extends BaseEntity<Long> {
     private String text;
     private String author;
     @Temporal(TemporalType.TIMESTAMP)
-    Date timestamp;
+    private Date timestamp;
     private int likes;
 }
