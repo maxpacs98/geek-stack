@@ -1,5 +1,7 @@
 package ro.ubb.geekstack.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,11 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    Logger logger = LoggerFactory.getLogger(CommentController.class);
+
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
     List<CommentDto> getComments() {
+//        long startTime = System.currentTimeMillis();
         List<CommentDto> dtos = new ArrayList<>();
         commentService.getAllComments().forEach(c -> dtos.add(CommentDto.
                 builder()
@@ -31,15 +36,23 @@ public class CommentController {
                 .timestamp(c.getTimestamp())
                 .text(c.getText())
                 .build()));
+//        long endTime = System.currentTimeMillis();
+//        long duration = (endTime - startTime);
+//        System.out.println("Get comments took " + duration + " mili");
         return dtos;
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
     Long addComment(@RequestBody CommentInputDto comment) {
         // TODO: See if we can generify
+//        long startTime = System.currentTimeMillis();
         Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
         c.setTimestamp(Date.from(Instant.now()));
-        return commentService.addComment(c);
+        Long res = commentService.addComment(c);
+//        long endTime = System.currentTimeMillis();
+//        long duration = (endTime - startTime);
+//        System.out.println("Add comment took " + duration + " mili");
+        return res;
     }
 
     @RequestMapping(value = "/comments/{id}", method = RequestMethod.DELETE)
@@ -73,5 +86,21 @@ public class CommentController {
     @RequestMapping(value = "/comments/delete", method = RequestMethod.DELETE)
     List<Long> bulkDelete(@RequestBody List<Long> commentIds) {
         return this.commentService.bulkDelete(commentIds);
+    }
+
+    @RequestMapping(value = "/comments/clear", method = RequestMethod.DELETE)
+    ResponseEntity<HttpStatus> clear() {
+        this.commentService.clear();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comments/count", method = RequestMethod.GET)
+    Long count() {
+        return this.commentService.count();
+    }
+
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
+    ResponseEntity<HttpStatus> health() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

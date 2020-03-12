@@ -17,11 +17,21 @@ public class CommentService {
     CommentRepository commentRepository;
 
     public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+        long startTime = System.currentTimeMillis();
+        List<Comment> res = commentRepository.findAll();
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("Get All SERVICE took " + duration + " mili");
+        return res;
     }
 
     public Long addComment(Comment c) {
-        return commentRepository.save(c).getId();
+//        long startTime = System.currentTimeMillis();
+        Long res = commentRepository.save(c).getId();
+//        long endTime = System.currentTimeMillis();
+//        long duration = endTime - startTime;
+//        System.out.println("Add comment SERVICE took " + duration + " mili");
+        return res;
     }
 
     public Long deleteComment(Long id) {
@@ -45,7 +55,11 @@ public class CommentService {
 
     public List<Long> bulkInsert(List<Comment> comments) {
         List<Long> ids = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
         List<Comment> saved = commentRepository.saveAll(comments);
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("Bulk insert " + duration + " mili");
         saved.forEach(c -> ids.add(c.getId()));
         return ids;
     }
@@ -53,5 +67,13 @@ public class CommentService {
     public List<Long> bulkDelete(List<Long> commentIds) {
         commentRepository.bulkDelete(commentIds);
         return commentIds;
+    }
+
+    public void clear() {
+        commentRepository.deleteAll();
+    }
+
+    public Long count() {
+        return commentRepository.count();
     }
 }
