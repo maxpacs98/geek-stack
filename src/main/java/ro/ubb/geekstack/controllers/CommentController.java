@@ -26,7 +26,7 @@ public class CommentController {
 
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
     List<CommentDto> getComments() {
-//        long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         List<CommentDto> dtos = new ArrayList<>();
         commentService.getAllComments().forEach(c -> dtos.add(CommentDto.
                 builder()
@@ -36,9 +36,10 @@ public class CommentController {
                 .timestamp(c.getTimestamp())
                 .text(c.getText())
                 .build()));
-//        long endTime = System.currentTimeMillis();
-//        long duration = (endTime - startTime);
-//        System.out.println("Get comments took " + duration + " mili");
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime);
+        logger.info("Get comments CONTROLLER took " + duration + " mili");
+//        System.out.println("Get comments CONTROLLER took " + duration + " mili");
         return dtos;
     }
 
@@ -102,5 +103,18 @@ public class CommentController {
     @RequestMapping(value = "/health", method = RequestMethod.GET)
     ResponseEntity<HttpStatus> health() {
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "comments/{id}", method = RequestMethod.GET)
+    CommentDto getOne(@PathVariable Long id) {
+        Comment c = this.commentService.getOne(id);
+        return CommentDto.
+                builder()
+                .id(c.getId())
+                .author(c.getAuthor())
+                .likes(c.getLikes())
+                .timestamp(c.getTimestamp())
+                .text(c.getText())
+                .build();
     }
 }

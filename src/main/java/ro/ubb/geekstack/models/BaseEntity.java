@@ -3,6 +3,7 @@ package ro.ubb.geekstack.models;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -11,6 +12,6 @@ import java.io.Serializable;
 @Data
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue()
     private ID id;
 }

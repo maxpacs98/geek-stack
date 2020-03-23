@@ -17,25 +17,24 @@ public class CommentService {
     CommentRepository commentRepository;
 
     public List<Comment> getAllComments() {
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
         List<Comment> res = commentRepository.findAll();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("Get All SERVICE took " + duration + " mili");
+//        long endTime = System.currentTimeMillis();
+//        long duration = endTime - startTime;
+//        System.out.println("Get All SERVICE took " + duration + " mili");
         return res;
     }
 
     public Long addComment(Comment c) {
-//        long startTime = System.currentTimeMillis();
-        Long res = commentRepository.save(c).getId();
-//        long endTime = System.currentTimeMillis();
-//        long duration = endTime - startTime;
-//        System.out.println("Add comment SERVICE took " + duration + " mili");
-        return res;
+        return commentRepository.save(c).getId();
     }
 
     public Long deleteComment(Long id) {
+//        long startTime = System.currentTimeMillis();
         commentRepository.deleteById(id);
+//        long endTime = System.currentTimeMillis();
+//        long duration = endTime - startTime;
+//        System.out.println("Add comment SERVICE took " + duration + " mili");
         return id;
     }
 
@@ -55,11 +54,11 @@ public class CommentService {
 
     public List<Long> bulkInsert(List<Comment> comments) {
         List<Long> ids = new ArrayList<>();
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
         List<Comment> saved = commentRepository.saveAll(comments);
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("Bulk insert " + duration + " mili");
+//        long endTime = System.currentTimeMillis();
+//        long duration = endTime - startTime;
+//        System.out.println("Bulk insert " + duration + " mili");
         saved.forEach(c -> ids.add(c.getId()));
         return ids;
     }
@@ -75,5 +74,10 @@ public class CommentService {
 
     public Long count() {
         return commentRepository.count();
+    }
+
+    public Comment getOne(Long id) {
+        Optional<Comment> res = commentRepository.findById(id);
+        return res.orElse(null);
     }
 }
