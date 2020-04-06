@@ -1,12 +1,13 @@
 package ro.ubb.geekstack.dtos;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @ToString(callSuper = true)
-@Builder
+@SuperBuilder
 public class CommentInputDto {
     private String text;
     private String author;

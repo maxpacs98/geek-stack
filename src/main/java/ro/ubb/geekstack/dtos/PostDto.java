@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
+import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -12,8 +14,9 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @SuperBuilder
-public class CommentDto extends CommentInputDto {
+public class PostDto extends PostInputDto{
     private Long id;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     private Date timestamp;
+    private List<CommentDto> comments;
 }
