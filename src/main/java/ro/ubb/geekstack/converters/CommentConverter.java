@@ -2,7 +2,7 @@ package ro.ubb.geekstack.converters;
 
 import org.springframework.stereotype.Component;
 import ro.ubb.geekstack.dtos.CommentDto;
-import ro.ubb.geekstack.dtos.CommentInputDto;
+import ro.ubb.geekstack.dtos.CIDto;
 import ro.ubb.geekstack.models.Comment;
 
 import java.time.Instant;
@@ -10,10 +10,10 @@ import java.util.Date;
 
 
 @Component
-public class CommentConverter extends AbstractConverter<Comment, CommentInputDto, CommentDto> {
+public class CommentConverter extends AbstractConverter<Comment, CIDto, CommentDto> {
 
     @Override
-    public Comment convertDtoToModel(CommentInputDto commentDto) {
+    public Comment convertDtoToModel(CIDto commentDto) {
         return Comment.builder()
                 .author(commentDto.getAuthor())
                 .likes(commentDto.getLikes())

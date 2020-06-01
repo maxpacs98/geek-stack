@@ -19,5 +19,5 @@ public class PostInputDto {
     private String author;
     private int likes;
     private boolean deleted;
-    private List<CommentInputDto> commentsInput;
+    private List<CIDto> commentsInput;
 }

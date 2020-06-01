@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @ToString(callSuper = true)
 @SuperBuilder
-public class CommentInputDto {
+public class CIDto {
     private String text;
     private String author;
     private int likes;

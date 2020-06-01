@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.geekstack.dtos.CommentDto;
-import ro.ubb.geekstack.dtos.CommentInputDto;
+import ro.ubb.geekstack.dtos.CIDto;
 import ro.ubb.geekstack.models.Comment;
 import ro.ubb.geekstack.services.CommentService;
 
@@ -44,7 +44,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
-    Long addComment(@RequestBody CommentInputDto comment) {
+    Long addComment(@RequestBody CIDto comment) {
         // TODO: See if we can generify
 //        long startTime = System.currentTimeMillis();
         Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
@@ -62,7 +62,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/comments/{id}", method = RequestMethod.PUT)
-    ResponseEntity<Long> updateComment(@PathVariable Long id, @RequestBody CommentInputDto comment) {
+    ResponseEntity<Long> updateComment(@PathVariable Long id, @RequestBody CIDto comment) {
         Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
         c.setTimestamp(new Date());
         Long updated = commentService.updateComment(id, c);
@@ -74,7 +74,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/comments/bulk", method = RequestMethod.POST)
-    List<Long> bulkInsert(@RequestBody List<CommentInputDto> comments) {
+    List<Long> bulkInsert(@RequestBody List<CIDto> comments) {
         List<Comment> toInsert = new ArrayList<>();
         comments.forEach(comment -> {
             Comment c = Comment.builder().author(comment.getAuthor()).likes(comment.getLikes()).text(comment.getText()).build();
@@ -101,7 +101,8 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/health", method = RequestMethod.GET)
-    ResponseEntity<HttpStatus> health() {
+    ResponseEntity<HttpStatus> health() throws InterruptedException {
+        Thread.sleep(200);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

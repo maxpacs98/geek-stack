@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @SuperBuilder
-public class CommentDto extends CommentInputDto {
+public class CommentDto extends CIDto {
     private Long id;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     private Date timestamp;
