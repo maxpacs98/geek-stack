@@ -22,7 +22,7 @@ public class PostService {
 
     public List<Post> getAllPosts() {
         List<Post> res = new ArrayList<>();
-        IIterator<Post> iterator = new PostIterator(postRepository.findAll());
+        IIterator<Post> iterator = new PostIterator(postRepository.getAll());
         while(!iterator.isFinished()) {
             Post current = iterator.getCurrent();
             if(!current.isDeleted()) {

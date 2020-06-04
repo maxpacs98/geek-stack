@@ -29,15 +29,9 @@ public class PostController {
     @Autowired
     CommentConverter commentConverter;
 
-    Logger logger = LoggerFactory.getLogger(CommentController.class);
-
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     List<PostDto> getPosts() {
-//        long startTime = System.currentTimeMillis();
         List<PostDto> dtos = postConverter.convertModelsToDtos(postService.getAllPosts());
-//        long endTime = System.currentTimeMillis();
-//        long duration = endTime - startTime;
-//        System.out.println("Add comment took " + duration + " mili");
         return dtos;
     }
 
