@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.geekstack.converters.CommentConverter;
 import ro.ubb.geekstack.converters.PostConverter;
+import ro.ubb.geekstack.dtos.CommentDto;
 import ro.ubb.geekstack.dtos.PostDto;
 import ro.ubb.geekstack.dtos.PostInputDto;
 import ro.ubb.geekstack.models.Comment;
@@ -69,5 +70,11 @@ public class PostController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(value = "posts/first/", method = RequestMethod.GET)
+    PostDto getOne() {
+        Post p = this.postService.getOne(null);
+        return postConverter.convertModelToDto(p);
     }
 }

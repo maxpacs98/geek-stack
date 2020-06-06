@@ -1,6 +1,9 @@
 package ro.ubb.geekstack.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ro.ubb.geekstack.iterators.IIterator;
 import ro.ubb.geekstack.iterators.PostIterator;
@@ -68,5 +71,17 @@ public class PostService {
             return postId;
         }
         return null;
+    }
+
+    public Post getOne(Long id) {
+        if (id != null) {
+            Optional<Post> res = postRepository.findById(id);
+            return res.orElse(null);
+        }
+        else {
+            Pageable limit = PageRequest.of(0,1);
+            Page<Post> res = postRepository.findAll(limit);
+            return res.iterator().next();
+        }
     }
 }
