@@ -17,6 +17,8 @@ public class PostConverter extends AbstractConverter<Post, PostInputDto, PostDto
 
     @Override
     public Post convertDtoToModel(PostInputDto postDto) {
+        /* Converts a PostInputDto into a Post Model */
+
         return Post.builder()
                 .author(postDto.getAuthor())
                 .likes(postDto.getLikes())
@@ -29,6 +31,8 @@ public class PostConverter extends AbstractConverter<Post, PostInputDto, PostDto
 
     @Override
     public PostDto convertModelToDto(Post post) {
+        /* Converts a Post Model into a PostDto */
+
         return PostDto.builder()
                 .id(post.getId())
                 .author(post.getAuthor())

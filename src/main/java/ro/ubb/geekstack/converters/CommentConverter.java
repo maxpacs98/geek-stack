@@ -14,6 +14,8 @@ public class CommentConverter extends AbstractConverter<Comment, CIDto, CommentD
 
     @Override
     public Comment convertDtoToModel(CIDto commentDto) {
+        /* Converts a CommentInputDto into a Comment Model */
+
         return Comment.builder()
                 .author(commentDto.getAuthor())
                 .likes(commentDto.getLikes())
@@ -24,6 +26,8 @@ public class CommentConverter extends AbstractConverter<Comment, CIDto, CommentD
 
     @Override
     public CommentDto convertModelToDto(Comment comment) {
+        /* Converts a Comment Model into a CommentDto */
+
         return CommentDto.builder()
                 .id(comment.getId())
                 .author(comment.getAuthor())

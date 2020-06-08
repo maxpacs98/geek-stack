@@ -1,14 +1,11 @@
 package ro.ubb.geekstack.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.geekstack.converters.CommentConverter;
 import ro.ubb.geekstack.converters.PostConverter;
-import ro.ubb.geekstack.dtos.CommentDto;
 import ro.ubb.geekstack.dtos.PostDto;
 import ro.ubb.geekstack.dtos.PostInputDto;
 import ro.ubb.geekstack.models.Comment;
@@ -32,37 +29,46 @@ public class PostController {
 
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     List<PostDto> getPosts() {
-        List<PostDto> dtos = postConverter.convertModelsToDtos(postService.getAllPosts());
-        return dtos;
+        /* Retrieves all the posts and converts them into DTOs */
+
+        return postConverter.convertModelsToDtos(postService.getAllPosts());
     }
 
     @RequestMapping(value = "/posts", method = RequestMethod.POST)
     Long addPost(@RequestBody PostInputDto post) {
+        /* Transforms a DTO into a post and sends it to the service to be added */
+
         Post p = postConverter.convertDtoToModel(post);
-        Long res = postService.addPost(p);
-        return res;
+        return postService.addPost(p);
     }
 
     @RequestMapping(value = "/posts/bulk", method = RequestMethod.POST)
     List<Long> addPosts(@RequestBody List<PostInputDto> posts) {
-        List<Long> res = postService.bulkInsert(postConverter.convertDtosToModels(posts));
-        return res;
+        /* Transforms multiple DTOs into comments and sends them to the service to be inserted */
+
+        return postService.bulkInsert(postConverter.convertDtosToModels(posts));
     }
 
     @RequestMapping(value = "/posts/count", method = RequestMethod.GET)
     Long count() {
-        return this.postService.
-                count();
+        /* Returns the count of all the comments */
+
+        return this.postService.count();
     }
 
     @RequestMapping(value = "/posts/clear", method = RequestMethod.DELETE)
     ResponseEntity<HttpStatus> clear() {
+        /* Sends a clear all comments command to the service */
+
         this.postService.clear();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/posts/{postId}", method = RequestMethod.PUT)
     ResponseEntity<Long> updateComment(@PathVariable Long postId, @RequestBody Comment comm) {
+        /* Transforms a comment belonging to a post from DTO to model
+        and sends it to the service update it*/
+
         comm.setTimestamp(Date.from(Instant.now()));
         Long updated = postService.updateComment(postId, comm);
         if (updated != null) {
@@ -74,6 +80,8 @@ public class PostController {
 
     @RequestMapping(value = "posts/first/", method = RequestMethod.GET)
     PostDto getOne() {
+        /* Retrieves the first post from the database */
+
         Post p = this.postService.getOne(null);
         return postConverter.convertModelToDto(p);
     }
